@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devlpor LINUX there</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(to bottom, #0f0f0f, #1a1a1a);
+      color: #fff;
+      overflow-x: hidden;
+      transition: background 0.5s, color 0.5s;
+    }
+    body.light-mode {
+      background: #f0f0f0;
+      color: #000;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+    .profile img {
+      max-width: 200px;
+      border-radius: 20px;
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0); }
+    }
+    .login-box, .dashboard-box {
+      background: #222;
+      padding: 2rem;
+      border-radius: 20px;
+      margin-top: 2rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+      text-align: center;
+      transition: all 0.8s ease;
+    }
+    body.light-mode .login-box,
+    body.light-mode .dashboard-box {
+      background: #fff;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    .login-box.fadeOut {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    .login-box input, .dashboard-box input {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 10px;
+      background: #333;
+      color: #fff;
+      font-size: 1rem;
+    }
+    body.light-mode .login-box input,
+    body.light-mode .dashboard-box input {
+      background: #e0e0e0;
+      color: #000;
+    }
+    .login-box input[type="submit"] {
+      background: #00ffcc;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .login-box input[type="submit"]:hover {
+      background: #00ddb8;
+    }
+    .dashboard-box button {
+      background: #00ffcc;
+      color: #000;
+      border: none;
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      margin: 0.3rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .dashboard-box button:hover {
+      background: #00ddb8;
+    }
+    .status, .info {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    body.light-mode .status,
+    body.light-mode .info {
+      color: #333;
+    }
+    .timer {
+      margin: 1rem 0;
+      font-size: 1.3rem;
+      color: #00ffcc;
+    }
+    .btn-link {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #00ffcc;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+    .btn-link:hover {
+      text-decoration: underline;
+    }
+    .logout {
+      margin-top: 1rem;
+      background: red;
+      color: #fff;
+      padding: 0.7rem 1.2rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .logout:hover {
+      background: darkred;
+    }
+    #loading-screen {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      color: #00ffcc;
+      font-size: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-screen">Memuat...</div>
+
+  <audio autoplay loop>
+    <source src="https://files.catbox.moe/5dcxmz.mp3" type="audio/mpeg" />
+  </audio>
+
+  <div class="container" style="display: none;" id="main-content">
+    <button onclick="toggleMode()">Ganti Mode 🌗</button>
+
+    <div id="login-page">
+      <div class="profile">
+        <img src="https://files.catbox.moe/c7k944.jpg" alt="Logo Linux Here" />
+      </div>
+      <div class="login-box" id="loginBox">
+        <h2>LINUX HERE 👋</h2>
+        <div class="timer" id="clock">00:00:00</div>
+        <form onsubmit="return handleLogin(event)">
+          <input type="text" id="username" placeholder="Username" required />
+          <input type="password" id="password" placeholder="Password" required />
+          <input type="submit" value="Masuk" />
+        </form>
+      </div>
+    </div>
+
+    <div class="dashboard-box" id="dashboardBox" style="display: none;">
+      <h2>PILIH NOMOR TARGET 🗑️</h2>
+      <input id="target" type="text" placeholder="Masukkan nomor target (62xxxx)" />
+      <div>
+        <button onclick="kirimBug('https://yourserver/api/forceclose')">Forceclose</button>
+        <button onclick="kirimBug('https://yourserver/api/crashbeta')">Crash Beta</button>
+        <button onclick="kirimBug('https://yourserver/api/blnakchat')">Blank Chat</button>
+        <button onclick="kirimBug('https://yourserver/api/iphoneforceclose')">iPhone Forceclose</button>
+        <button onclick="kirimBug('https://yourserver/api/delaywhatsapp')">Delay Whatsapp</button>
+      </div>
+      <div class="status">Status: Server Aktif</div>
+      <div class="info">Selamat datang, user!</div>
+      <div class="info">DEVLPOR LINUX HERE!</div>
+    </div>
+
+    <a href="https://t.me/Rezuly1" class="btn-link" target="_blank">DEVELOPER</a>
+    <button class="logout" onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    window.addEventListener('load', () => {
+      document.getElementById("loading-screen").style.display = "none";
+      document.getElementById("main-content").style.display = "block";
+    });
+
+    function toggleMode() {
+      document.body.classList.toggle("light-mode");
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+
+      if (user === "admin" && pass === "1234") {
+        document.getElementById("loginBox").classList.add("fadeOut");
+        setTimeout(() => {
+          document.getElementById("loginBox").style.display = "none";
+          document.getElementById("dashboardBox").style.display = "block";
+        }, 800);
+      } else {
+        alert("Username atau password salah!");
+      }
+    }
+
+    function kirimBug(api) {
+      const target = document.getElementById("target").value.trim();
+      if (!target) {
+        alert("Masukkan nomor target!");
+        return;
+      }
+      alert(`Mengirim bug ke ${target} via ${api}`);
+    }
+
+    function logout() {
+      location.reload();
+    }
+  </script>
+</body>
+</html>
